@@ -1,5 +1,8 @@
 import instructor
 from pydantic import BaseModel, Field
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 from enum import Enum
 
@@ -13,8 +16,14 @@ def send_reply(message: str):
 # --------------------------------------------------------------
 
 # Patch the OpenAI client
-client = instructor.from_openai(OpenAI())
-MODEL = "gpt-4o-2024-08-06"
+load_dotenv()
+client = instructor.from_openai(
+    OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
+)
+MODEL = "gemini-3.8-flash"
 
 
 # Define your desired output structure using Pydantic

@@ -1,11 +1,17 @@
+import os
 import time
+from dotenv import load_dotenv
 from openai import OpenAI
 from pathlib import Path
 import base64
 from utils.resizer import resize_image
 from utils.downloader import download_sora_video
 
-openai = OpenAI()
+load_dotenv()
+openai = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 
 # --------------------------------------------------------------
@@ -14,7 +20,7 @@ openai = OpenAI()
 
 # Takes abbout 2 minutes
 response = openai.responses.create(
-    model="gpt-5",
+    model="gemini-3.8-flash",
     input="A professional studio desk setup with Shure SM7B microphone on boom arm. Dark background with soft blue LED light glow creating ambient atmosphere. Clean desk surface, professional lighting equipment visible. Cinematic look, moody lighting, no people.",
     tools=[
         {

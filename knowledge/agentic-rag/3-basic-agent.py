@@ -18,7 +18,7 @@ nest_asyncio.apply()
 # --------------------------------------------------------------
 
 agent = Agent(
-    "openai:gpt-5.5",
+    "google-gla:gemini-3.8-flash",
     tools=[list_files, grep, read_file],
     instructions=(
         "Search notes with list_files, grep, read_file. Cite files. "

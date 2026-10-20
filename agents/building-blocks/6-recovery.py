@@ -4,7 +4,12 @@ This component implements retry logic, fallback processes, and error handling to
 """
 
 from typing import Optional
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 from pydantic import BaseModel
 
 
@@ -15,11 +20,14 @@ class UserInfo(BaseModel):
 
 
 def resilient_intelligence(prompt: str) -> str:
-    client = OpenAI()
+    client = OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
 
     # Get structured output
     response = client.responses.parse(
-        model="gpt-4o",
+        model="gemini-3.8-flash",
         input=[
             {"role": "system", "content": "Extract user information from the text."},
             {"role": "user", "content": prompt},

@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 import sys
 from pathlib import Path
 from contextlib import AsyncExitStack
@@ -23,8 +24,11 @@ load_dotenv(SCRIPT_DIR.parent / ".env")
 # Global variables to store session state
 session = None
 exit_stack = AsyncExitStack()
-openai_client = AsyncOpenAI()
-model = "gpt-4o"
+openai_client = AsyncOpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
+model = "gemini-3.8-flash"
 stdio = None
 write = None
 

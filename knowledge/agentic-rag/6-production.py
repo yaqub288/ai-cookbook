@@ -216,8 +216,8 @@ class SearchAnswer(BaseModel):
 
 
 agent = Agent(
-    # "openai:gpt-5.5",
-    "openai:gpt-4.1-nano",  # faster
+    # "google-gla:gemini-3.8-flash",
+    "google-gla:gemini-3.8-flash",
     tools=[list_files, grep, read_file],
     output_type=SearchAnswer,
     instructions=(

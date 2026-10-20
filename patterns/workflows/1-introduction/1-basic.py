@@ -1,20 +1,22 @@
 import os
 
-from openai import OpenAI
+from dotenv import load_dotenv
+from google import genai
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+load_dotenv()
 
+api_key = os.getenv("GEMINI_API_KEY")
+if not api_key:
+    raise RuntimeError("Set GEMINI_API_KEY in your environment or .env file.")
 
-completion = client.chat.completions.create(
-    model="gpt-4o",
-    messages=[
-        {"role": "system", "content": "You're a helpful assistant."},
-        {
-            "role": "user",
-            "content": "Write a limerick about the Python programming language.",
-        },
-    ],
+client = genai.Client(api_key=api_key)
+
+response = client.models.generate_content(
+    model="gemini-3.8-flash",
+    contents="How do i make tea.",
+    config={
+        "system_instruction": "You're a helpful assistant.",
+    },
 )
 
-response = completion.choices[0].message.content
-print(response)
+print(response.text)

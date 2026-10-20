@@ -25,12 +25,15 @@ class SearchAgent:
 
     def __init__(
         self,
-        model: str = "gpt-4.1",
+        model: str = "gemini-3.8-flash",
         system_prompt: str = None,
         verbose: bool = True,
     ):
         load_dotenv()
-        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.client = OpenAI(
+            api_key=os.getenv("GEMINI_API_KEY"),
+            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+        )
         self.model = model
         self.verbose = verbose
         self.conversation_history: List[dict] = []

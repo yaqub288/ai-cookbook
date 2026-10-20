@@ -1,8 +1,14 @@
+import os
+from dotenv import load_dotenv
 from openai import OpenAI
 
 from utils.downloader import download_sora_video
 
-openai = OpenAI()
+load_dotenv()
+openai = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 # --------------------------------------------------------------
 # Generate a video with Sora Pro mode

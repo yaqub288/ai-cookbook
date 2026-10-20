@@ -3,11 +3,19 @@ import json
 
 import requests
 from bs4 import BeautifulSoup
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 from pydantic import BaseModel, Field
 
-client = OpenAI()
-MODEL = "gpt-4o-2024-08-06"
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
+MODEL = "gemini-3.8-flash"
 
 
 query = """

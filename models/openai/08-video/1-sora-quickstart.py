@@ -1,8 +1,14 @@
+import os
 import sys
 import time
+from dotenv import load_dotenv
 from openai import OpenAI
 
-openai = OpenAI()
+load_dotenv()
+openai = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 # --------------------------------------------------------------
 # Create a new video
@@ -10,7 +16,7 @@ openai = OpenAI()
 
 # Takes about 2 minutes
 video = openai.videos.create(
-    model="sora-2",
+    model="gemini-3.8-flash",
     prompt="YouTuber, black t-shirt, in a professional studio setup, sitting at his desk talking directly into a Shure SM7B microphone on a boom arm. He says with a smirk: 'Wait... did an AI just generate me to teach you about AI? That's pretty meta...' Dark background with a soft blue LED light glow. Professional lighting setup with key light and rim light. Shot on Sony FX6, cinematic depth of field, crisp focus, vertical format 9:16.",
     size="720x1280",
     seconds="4",

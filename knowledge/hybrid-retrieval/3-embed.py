@@ -19,7 +19,10 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 model = "text-embedding-3-small"
 
 DATA_DIR = Path(__file__).parent / "data" / "fiqa"

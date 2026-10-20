@@ -3,9 +3,14 @@ Control: Provides deterministic decision-making and process flow control.
 This component handles if/then logic, routing based on conditions, and process orchestration for predictable behavior.
 """
 
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 from pydantic import BaseModel
 from typing import Literal
+
+load_dotenv()
 
 
 class IntentClassification(BaseModel):
@@ -15,9 +20,12 @@ class IntentClassification(BaseModel):
 
 
 def route_based_on_intent(user_input: str) -> tuple[str, IntentClassification]:
-    client = OpenAI()
+    client = OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
     response = client.responses.parse(
-        model="gpt-4o",
+        model="gemini-3.8-flash",
         input=[
             {
                 "role": "system",
@@ -44,9 +52,12 @@ def route_based_on_intent(user_input: str) -> tuple[str, IntentClassification]:
 
 
 def answer_question(question: str) -> str:
-    client = OpenAI()
+    client = OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
     response = client.responses.create(
-        model="gpt-4o", input=f"Answer this question: {question}"
+        model="gemini-3.8-flash", input=f"Answer this question: {question}"
     )
     return response.output[0].content[0].text
 

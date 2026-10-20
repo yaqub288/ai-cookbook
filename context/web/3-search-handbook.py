@@ -6,12 +6,19 @@ import json
 from pathlib import Path
 from typing import List
 
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 from pydantic import BaseModel
 
-client = OpenAI()
+load_dotenv()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
-MODEL = "gpt-4.1-nano"
+MODEL = "gemini-3.8-flash"
 HANDBOOK_PATH = Path(__file__).parent / "data" / "handbook.md"
 
 

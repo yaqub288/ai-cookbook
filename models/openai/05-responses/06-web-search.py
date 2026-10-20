@@ -1,6 +1,14 @@
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 
-client = OpenAI()
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 
 # --------------------------------------------------------------
@@ -8,7 +16,7 @@ client = OpenAI()
 # --------------------------------------------------------------
 
 response = client.responses.create(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     tools=[
         {
             "type": "web_search_preview",
@@ -24,7 +32,7 @@ print(response.output_text)
 # --------------------------------------------------------------
 
 response = client.responses.create(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     tools=[
         {
             "type": "web_search_preview",

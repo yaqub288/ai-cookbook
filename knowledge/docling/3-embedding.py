@@ -6,13 +6,20 @@ from docling.document_converter import DocumentConverter
 from dotenv import load_dotenv
 from lancedb.embeddings import get_registry
 from lancedb.pydantic import LanceModel, Vector
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 from utils.tokenizer import OpenAITokenizerWrapper
 
 load_dotenv()
 
-# Initialize OpenAI client (make sure you have OPENAI_API_KEY in your environment variables)
-client = OpenAI()
+# Initialize the Gemini-compatible client.
+load_dotenv()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 
 tokenizer = OpenAITokenizerWrapper()  # Load our custom tokenizer for OpenAI

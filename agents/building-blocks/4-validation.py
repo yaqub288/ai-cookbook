@@ -5,7 +5,12 @@ This component provides schema validation and structured data parsing to guarant
 More info: https://platform.openai.com/docs/guides/structured-outputs?api-mode=responses
 """
 
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 from pydantic import BaseModel
 
 
@@ -20,9 +25,12 @@ class TaskResult(BaseModel):
 
 
 def structured_intelligence(prompt: str) -> TaskResult:
-    client = OpenAI()
+    client = OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
     response = client.responses.parse(
-        model="gpt-4o",
+        model="gemini-3.8-flash",
         input=[
             {
                 "role": "system",

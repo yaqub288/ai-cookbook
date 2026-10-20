@@ -2,10 +2,15 @@ import json
 import os
 
 import requests
+from dotenv import load_dotenv
 from openai import OpenAI
 from pydantic import BaseModel, Field
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+load_dotenv()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 """
 docs: https://platform.openai.com/docs/guides/function-calling
@@ -57,7 +62,7 @@ messages = [
 ]
 
 completion = client.chat.completions.create(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     messages=messages,
     tools=tools,
 )
@@ -103,7 +108,7 @@ class WeatherResponse(BaseModel):
 
 
 completion_2 = client.beta.chat.completions.parse(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     messages=messages,
     tools=tools,
     response_format=WeatherResponse,

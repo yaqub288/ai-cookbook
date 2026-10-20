@@ -1,5 +1,8 @@
 import streamlit as st
 import lancedb
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -7,7 +10,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Initialize OpenAI client
-client = OpenAI()
+load_dotenv()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 
 # Initialize LanceDB connection
@@ -80,7 +87,7 @@ def get_chat_response(messages, context: str) -> str:
 
     # Create the streaming response
     stream = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gemini-3.8-flash",
         messages=messages_with_context,
         temperature=0.7,
         stream=True,

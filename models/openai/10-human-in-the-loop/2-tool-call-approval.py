@@ -8,12 +8,20 @@ Run: python 2-tool-call-approval.py
 """
 
 import json
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 # --------------------------------------------------------------
 # Define Tools
@@ -131,7 +139,7 @@ def run_with_approval(prompt: str) -> str:
                 "You are a helpful banking assistant. "
                 "You can check balances, list contacts, and transfer money."
             ),
-            model="gpt-4o",
+            model="gemini-3.8-flash",
             temperature=0,
             input=messages,
             tools=tools,

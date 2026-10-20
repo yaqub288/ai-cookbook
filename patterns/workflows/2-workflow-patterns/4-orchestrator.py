@@ -1,6 +1,7 @@
 from typing import List, Dict
 from pydantic import BaseModel, Field
 from openai import OpenAI
+from dotenv import load_dotenv
 import os
 import logging
 
@@ -13,8 +14,12 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-model = "gpt-4o-mini"
+load_dotenv()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
+model = "gemini-3.8-flash"
 
 # --------------------------------------------------------------
 # Step 1: Define the data models

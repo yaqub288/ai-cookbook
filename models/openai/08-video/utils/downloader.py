@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+from dotenv import load_dotenv
 from openai import OpenAI
 from openai.types import Video
 
@@ -11,7 +12,11 @@ def download_sora_video(
     filename: str = None,
     extension: str = ".mp4",
 ) -> Video:
-    openai = OpenAI()
+    load_dotenv()
+    openai = OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
     progress = getattr(video, "progress", 0)
     bar_length = 30
 

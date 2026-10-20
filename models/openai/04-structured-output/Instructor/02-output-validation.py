@@ -1,5 +1,8 @@
 import instructor
 from pydantic import BaseModel, Field
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 from enum import Enum
 
@@ -7,7 +10,13 @@ from enum import Enum
 # Instructor Retry Example with Enum Category
 # --------------------------------------------------------------
 
-client = instructor.from_openai(OpenAI())
+load_dotenv()
+client = instructor.from_openai(
+    OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
+)
 
 query = "Hi there, I have a question about my bill. Can you help me? "
 
@@ -30,7 +39,7 @@ class Reply(BaseModel):
 
 
 reply = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gemini-3.8-flash",
     response_model=Reply,
     max_retries=1,  # Don't allow retries
     messages=[
@@ -44,7 +53,7 @@ reply = client.chat.completions.create(
 
 
 reply = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gemini-3.8-flash",
     response_model=Reply,
     max_retries=3,  # Allow up to 3 retries
     messages=[
@@ -63,7 +72,7 @@ reply = client.chat.completions.create(
 
 
 reply = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gemini-3.8-flash",
     response_model=Reply,
     max_retries=1,
     messages=[
@@ -76,7 +85,7 @@ reply = client.chat.completions.create(
 )
 
 reply = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gemini-3.8-flash",
     response_model=Reply,
     max_retries=3,
     messages=[

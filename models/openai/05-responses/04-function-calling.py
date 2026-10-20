@@ -1,6 +1,14 @@
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 
-client = OpenAI()
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 tools = [
     {
@@ -21,7 +29,7 @@ tools = [
 ]
 
 response = client.responses.create(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     input="Can you send an email to ilan@example.com and katia@example.com saying hi?",
     tools=tools,
 )

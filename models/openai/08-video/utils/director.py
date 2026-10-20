@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from openai import OpenAI
 
 try:
@@ -8,14 +10,18 @@ except ImportError:
 
 class SoraDirector:
     def __init__(self):
-        self.openai = OpenAI()
+        load_dotenv()
+        self.openai = OpenAI(
+            api_key=os.getenv("GEMINI_API_KEY"),
+            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+        )
 
     def generate_sora_prompt(
         self, idea: str, prompt_template: str = PIXAR_PROMPT
     ) -> str:
         print("Generating Sora prompt...")
         response = self.openai.responses.create(
-            model="gpt-5",
+            model="gemini-3.8-flash",
             input=idea,
             instructions=prompt_template,
         )

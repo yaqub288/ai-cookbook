@@ -1,6 +1,7 @@
 from openai import OpenAI
 from mem0 import Memory
 from dotenv import load_dotenv
+import os
 
 load_dotenv("../.env")
 
@@ -11,7 +12,10 @@ config = {
     },
 }
 
-openai_client = OpenAI()
+openai_client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 memory = Memory.from_config(config)
 
 
@@ -30,7 +34,7 @@ def chat_with_memories(message: str, user_id: str = "default_user") -> str:
         {"role": "user", "content": message},
     ]
     response = openai_client.chat.completions.create(
-        model="gpt-4o-mini", messages=messages
+        model="gemini-3.8-flash", messages=messages
     )
     assistant_response = response.choices[0].message.content
 

@@ -36,7 +36,7 @@ tools = [
 
 # Call LLM
 response = openai.chat.completions.create(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     messages=[{"role": "user", "content": "Calculate 25 + 17"}],
     tools=tools,
 )
@@ -52,7 +52,7 @@ if response.choices[0].message.tool_calls:
 
     # Send result back to model
     final_response = openai.chat.completions.create(
-        model="gpt-4o",
+        model="gemini-3.8-flash",
         messages=[
             {"role": "user", "content": "Calculate 25 + 17"},
             response.choices[0].message,

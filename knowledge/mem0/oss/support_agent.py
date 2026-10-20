@@ -1,6 +1,7 @@
 from openai import OpenAI
 from mem0 import Memory
 from dotenv import load_dotenv
+import os
 
 load_dotenv("../.env")
 
@@ -21,7 +22,10 @@ class CustomerSupportAIAgent:
             },
         }
         self.memory = Memory.from_config(config)
-        self.client = OpenAI()
+        self.client = OpenAI(
+            api_key=os.getenv("GEMINI_API_KEY"),
+            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+        )
         self.app_id = "customer-support"
 
     def handle_query(self, query, user_id=None):
@@ -33,7 +37,7 @@ class CustomerSupportAIAgent:
         """
         # Start a streaming chat completion request to the AI
         response = self.client.chat.completions.create(
-            model="gpt-4.1",
+            model="gemini-3.8-flash",
             messages=[
                 {"role": "system", "content": "You are a customer support AI agent."},
                 {"role": "user", "content": query},

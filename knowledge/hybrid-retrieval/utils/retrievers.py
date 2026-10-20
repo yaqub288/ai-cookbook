@@ -16,7 +16,10 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 ROOT = Path(__file__).parent.parent
 DATA_DIR = ROOT / "data" / "fiqa"
@@ -42,7 +45,10 @@ class BM25Retriever:
     def search(self, query: str, k: int = 10) -> list[tuple[str, float]]:
         tokens = bm25s.tokenize([query], stopwords="en")
         indices, scores = self._retriever.retrieve(tokens, k=k)
-        return [(self._doc_ids[i], float(scores[0][j])) for j, i in enumerate(indices[0].tolist())]
+        return [
+            (self._doc_ids[i], float(scores[0][j]))
+            for j, i in enumerate(indices[0].tolist())
+        ]
 
 
 # --------------------------------------------------------------

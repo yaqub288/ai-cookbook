@@ -1,5 +1,8 @@
 import instructor
 from pydantic import BaseModel, Field
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 from enum import Enum
 
@@ -9,7 +12,13 @@ from enum import Enum
 # --------------------------------------------------------------
 
 # Patch the OpenAI client
-client = instructor.from_openai(OpenAI())
+load_dotenv()
+client = instructor.from_openai(
+    OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
+)
 
 
 class TicketCategory(str, Enum):
@@ -37,7 +46,7 @@ class Ticket(BaseModel):
 
 def process_ticket(customer_message: str) -> Ticket:
     reply = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gemini-3.8-flash",
         response_model=Ticket,
         max_retries=3,
         messages=[

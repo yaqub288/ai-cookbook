@@ -1,9 +1,15 @@
 import os
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 from openai import OpenAI
 from utils.downloader import download_sora_video
 
-openai = OpenAI()
+load_dotenv()
+openai = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 # Character description for consistency
 CHARACTER = (

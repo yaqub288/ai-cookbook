@@ -10,7 +10,7 @@ Learn more about the theory and practice behind these patterns:
 
 ## Table of Content
 
-In this tutorial, we’ll cover everything you need to start building AI agents in pure Python. We’ll start with the essential building blocks and then dive into workflow patterns for more reliable systems. To follow along, basic Python skills are recommended, along with familiarity with the OpenAI SDK and an API key. I highly recommend cloning the GitHub repository so you can work through the code step by step. Watch me go through it first, then try it yourself to reinforce your understanding. I move quickly to cover a lot in 45 minutes, but you can always pause, rewind, or ask ChatGPT for help.
+In this tutorial, we’ll cover everything you need to start building AI agents in pure Python. We’ll start with the essential building blocks and then dive into workflow patterns for more reliable systems. To follow along, basic Python skills are recommended, along with familiarity with an LLM SDK and an API key. The introductory example uses Google’s Gemini API; later examples may use other providers. I highly recommend cloning the GitHub repository so you can work through the code step by step. Watch me go through it first, then try it yourself to reinforce your understanding. I move quickly to cover a lot in 45 minutes, but you can always pause, rewind, or ask ChatGPT for help.
 
 Part 1: Building block: The augmented LLM
 

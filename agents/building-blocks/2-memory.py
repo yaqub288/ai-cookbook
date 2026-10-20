@@ -5,14 +5,22 @@ This component maintains conversation history and context to enable coherent mul
 More info: https://platform.openai.com/docs/guides/conversation-state?api-mode=responses
 """
 
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 
-client = OpenAI()
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 
 def ask_joke_without_memory():
     response = client.responses.create(
-        model="gpt-4o-mini",
+        model="gemini-3.8-flash",
         input=[
             {"role": "user", "content": "Tell me a joke about programming"},
         ],
@@ -22,7 +30,7 @@ def ask_joke_without_memory():
 
 def ask_followup_without_memory():
     response = client.responses.create(
-        model="gpt-4o-mini",
+        model="gemini-3.8-flash",
         input=[
             {"role": "user", "content": "What was my previous question?"},
         ],
@@ -32,7 +40,7 @@ def ask_followup_without_memory():
 
 def ask_followup_with_memory(joke_response: str):
     response = client.responses.create(
-        model="gpt-4o-mini",
+        model="gemini-3.8-flash",
         input=[
             {"role": "user", "content": "Tell me a joke about programming"},
             {"role": "assistant", "content": joke_response},

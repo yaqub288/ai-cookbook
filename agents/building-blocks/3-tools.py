@@ -8,7 +8,12 @@ More info: https://platform.openai.com/docs/guides/function-calling?api-mode=res
 
 import json
 import requests
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 
 
 def get_weather(latitude, longitude):
@@ -26,7 +31,10 @@ def call_function(name, args):
 
 
 def intelligence_with_tools(prompt: str) -> str:
-    client = OpenAI()
+    client = OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
 
     tools = [
         {
@@ -50,7 +58,7 @@ def intelligence_with_tools(prompt: str) -> str:
 
     # Step 1: Call model with tools
     response = client.responses.create(
-        model="gpt-4o",
+        model="gemini-3.8-flash",
         input=input_messages,
         tools=tools,
     )
@@ -75,7 +83,7 @@ def intelligence_with_tools(prompt: str) -> str:
 
     # Step 5: Get final response with function results
     final_response = client.responses.create(
-        model="gpt-4o",
+        model="gemini-3.8-flash",
         input=input_messages,
         tools=tools,
     )

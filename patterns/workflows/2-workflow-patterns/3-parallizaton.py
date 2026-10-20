@@ -3,6 +3,7 @@ import logging
 import os
 
 import nest_asyncio
+from dotenv import load_dotenv
 from openai import AsyncOpenAI
 from pydantic import BaseModel, Field
 
@@ -16,8 +17,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-model = "gpt-4o"
+load_dotenv()
+client = AsyncOpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
+model = "gemini-3.8-flash"
 
 # --------------------------------------------------------------
 # Step 1: Define validation models

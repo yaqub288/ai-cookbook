@@ -1,5 +1,8 @@
 import json
 
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 
 from tools import (
@@ -11,8 +14,12 @@ from tools import (
     search_handbook,
 )
 
-MODEL = "gpt-4.1"
-client = OpenAI()
+MODEL = "gemini-3.8-flash"
+load_dotenv()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 SYSTEM_PROMPT = """You are a research assistant for Dutch government organizations. You can help answer questions by:
 1. Searching the AI implementation handbook (for policy questions)

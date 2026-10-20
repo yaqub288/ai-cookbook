@@ -1,6 +1,14 @@
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 
-client = OpenAI()
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 """
 https://platform.openai.com/docs/api-reference/responses
@@ -11,7 +19,7 @@ https://platform.openai.com/docs/api-reference/responses
 # --------------------------------------------------------------
 
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     messages=[
         {
             "role": "user",
@@ -28,7 +36,8 @@ print(response.choices[0].message.content)
 # --------------------------------------------------------------
 
 response = client.responses.create(
-    model="gpt-4o", input="Write a one-sentence bedtime story about a unicorn."
+    model="gemini-3.8-flash",
+    input="Write a one-sentence bedtime story about a unicorn.",
 )
 
 print(response.output_text)
@@ -38,7 +47,7 @@ print(response.output_text)
 # --------------------------------------------------------------
 
 response = client.responses.create(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     input=[
         {"role": "user", "content": "what teams are playing in this image?"},
         {
@@ -60,7 +69,7 @@ print(response.output_text)
 # --------------------------------------------------------------
 
 stream = client.responses.create(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     input="Say 'double bubble bath' ten times fast.",
     stream=True,
 )

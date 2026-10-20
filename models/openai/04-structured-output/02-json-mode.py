@@ -1,8 +1,16 @@
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 
 import json
 
-client = OpenAI()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 
 def send_reply(message: str):
@@ -31,7 +39,7 @@ messages = [
 ]
 
 response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gemini-3.8-flash",
     messages=messages,
     response_format={"type": "json_object"},
 )
@@ -72,7 +80,7 @@ messages = [
 ]
 
 response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gemini-3.8-flash",
     messages=messages,
     response_format={"type": "json_object"},
 )
@@ -111,7 +119,7 @@ messages = [
 ]
 
 response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gemini-3.8-flash",
     messages=messages,
     response_format={"type": "json_object"},
 )

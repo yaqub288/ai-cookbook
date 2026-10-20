@@ -12,13 +12,21 @@ Run: python 1-structured-output.py
 """
 
 from typing import Literal, Self
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 from pydantic import BaseModel, model_validator
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 # --------------------------------------------------------------
 # Account State
@@ -94,7 +102,7 @@ print(confirmation_example.model_dump_json(indent=2))
 def run_with_confirmation(prompt: str) -> str:
     # Step 1: Analyze request and create action plan
     response = client.responses.parse(
-        model="gpt-4o",
+        model="gemini-3.8-flash",
         instructions=(
             "You are a banking assistant. Analyze the user request and create a list of actions. "
             "Use 'check_balance' for balance inquiries, 'transfer' for money transfers, "

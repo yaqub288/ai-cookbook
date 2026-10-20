@@ -1,8 +1,14 @@
 from utils.director import SoraDirector
 from utils.downloader import download_sora_video
+import os
+from dotenv import load_dotenv
 from openai import OpenAI
 
-openai = OpenAI()
+load_dotenv()
+openai = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 director = SoraDirector()
 # --------------------------------------------------------------
 # Generate a Sora prompt

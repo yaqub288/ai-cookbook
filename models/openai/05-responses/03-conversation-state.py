@@ -1,6 +1,14 @@
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 
-client = OpenAI()
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 """
 https://platform.openai.com/docs/guides/conversation-state?api-mode=responses
@@ -11,7 +19,7 @@ https://platform.openai.com/docs/guides/conversation-state?api-mode=responses
 # --------------------------------------------------------------
 
 response = client.responses.create(
-    model="gpt-4o-mini",
+    model="gemini-3.8-flash",
     input=[
         {"role": "user", "content": "knock knock."},
         {"role": "assistant", "content": "Who's there?"},
@@ -28,7 +36,7 @@ print(response.output_text)
 
 history = [{"role": "user", "content": "tell me a joke"}]
 
-response = client.responses.create(model="gpt-4o-mini", input=history, store=False)
+response = client.responses.create(model="gemini-3.8-flash", input=history, store=False)
 
 print(response.output_text)
 
@@ -40,7 +48,7 @@ history += [
 history.append({"role": "user", "content": "tell me another"})
 
 second_response = client.responses.create(
-    model="gpt-4o-mini", input=history, store=False
+    model="gemini-3.8-flash", input=history, store=False
 )
 
 print(second_response.output_text)
@@ -50,13 +58,13 @@ print(second_response.output_text)
 # --------------------------------------------------------------
 
 response = client.responses.create(
-    model="gpt-4o-mini",
+    model="gemini-3.8-flash",
     input="tell me a joke",
 )
 print(response.output_text)
 
 second_response = client.responses.create(
-    model="gpt-4o-mini",
+    model="gemini-3.8-flash",
     previous_response_id=response.id,
     input=[{"role": "user", "content": "explain why this is funny."}],
 )

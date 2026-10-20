@@ -1,9 +1,14 @@
 import os
 
-from openai import OpenAI
+from dotenv import load_dotenv
+from google import genai
 from pydantic import BaseModel
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+load_dotenv()
+client = genai(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 
 # --------------------------------------------------------------
@@ -22,7 +27,7 @@ class CalendarEvent(BaseModel):
 # --------------------------------------------------------------
 
 completion = client.beta.chat.completions.parse(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     messages=[
         {"role": "system", "content": "Extract the event information."},
         {

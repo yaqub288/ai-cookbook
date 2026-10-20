@@ -3,7 +3,12 @@ Feedback: Provides strategic points where human judgement is required.
 This component implements approval workflows and human-in-the-loop processes for high-risk decisions or complex judgments.
 """
 
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 
 
 def get_human_approval(content: str) -> bool:
@@ -13,9 +18,12 @@ def get_human_approval(content: str) -> bool:
 
 
 def intelligence_with_human_feedback(prompt: str) -> None:
-    client = OpenAI()
+    client = OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
 
-    response = client.responses.create(model="gpt-4o", input=prompt)
+    response = client.responses.create(model="gemini-3.8-flash", input=prompt)
     draft_response = response.output_text
 
     if get_human_approval(draft_response):

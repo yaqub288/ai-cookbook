@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 import sys
 from pathlib import Path
 from contextlib import AsyncExitStack
@@ -24,7 +25,7 @@ load_dotenv(SCRIPT_DIR.parent / ".env")
 class MCPOpenAIClient:
     """Client for interacting with OpenAI models using MCP tools."""
 
-    def __init__(self, model: str = "gpt-4o"):
+    def __init__(self, model: str = "gemini-3.8-flash"):
         """Initialize the OpenAI MCP client.
 
         Args:
@@ -33,7 +34,10 @@ class MCPOpenAIClient:
         # Initialize session and client objects
         self.session: Optional[ClientSession] = None
         self.exit_stack = AsyncExitStack()
-        self.openai_client = AsyncOpenAI()
+        self.openai_client = AsyncOpenAI(
+            api_key=os.getenv("GEMINI_API_KEY"),
+            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+        )
         self.model = model
         self.stdio: Optional[Any] = None
         self.write: Optional[Any] = None

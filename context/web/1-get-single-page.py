@@ -1,11 +1,18 @@
+import os
+
+from dotenv import load_dotenv
 from docling.document_converter import DocumentConverter
 from openai import OpenAI
 from pydantic import BaseModel, HttpUrl
 
-client = OpenAI()
+load_dotenv()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 converter = DocumentConverter()
 
-MODEL = "gpt-4.1-nano"
+MODEL = "gemini-3.8-flash"
 
 # --------------------------------------------------------------
 # Define the output model

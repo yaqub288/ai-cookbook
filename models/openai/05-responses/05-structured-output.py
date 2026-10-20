@@ -1,17 +1,25 @@
 import json
 from typing import List
 
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 from pydantic import BaseModel
 
-client = OpenAI()
+client = OpenAI(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+)
 
 # --------------------------------------------------------------
 # Using a JSON Schema
 # --------------------------------------------------------------
 
 response = client.responses.create(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     input=[
         {"role": "system", "content": "Extract the event information."},
         {
@@ -56,7 +64,7 @@ class CalendarEvent(BaseModel):
 
 
 response = client.responses.parse(
-    model="gpt-4o",
+    model="gemini-3.8-flash",
     input="Alice and Bob are going to a science fair on Friday",
     instructions="Extract the event information",
     text_format=CalendarEvent,

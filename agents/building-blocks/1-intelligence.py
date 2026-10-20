@@ -5,12 +5,20 @@ This component handles context understanding, instruction following, and respons
 More info: https://platform.openai.com/docs/guides/text?api-mode=responses
 """
 
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
+
+load_dotenv()
 
 
 def basic_intelligence(prompt: str) -> str:
-    client = OpenAI()
-    response = client.responses.create(model="gpt-4o", input=prompt)
+    client = OpenAI(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    )
+    response = client.responses.create(model="gemini-3.8-flash", input=prompt)
     return response.output_text
 
 
