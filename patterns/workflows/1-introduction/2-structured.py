@@ -5,9 +5,8 @@ from google import genai
 from pydantic import BaseModel
 
 load_dotenv()
-client = genai(
+client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY"),
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
 )
 
 
